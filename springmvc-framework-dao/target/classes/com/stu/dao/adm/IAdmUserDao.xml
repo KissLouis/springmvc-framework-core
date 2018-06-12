@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stu.dao.adm.IAdmUserDao">
+
+	<resultMap type="com.stu.entity.adm.AdmUser" id="userMap">
+		<id column="userId" property="userId" />
+		<result column="userImg" property="userImg" />
+		<result column="userName" property="userName" />
+		<result column="passWord" property="passWord" />
+		<result column="userPhone" property="userPhone" />
+		<result column="creationDate" property="creationDate" />
+		<result column="userState" property="userState" />
+	</resultMap>
+
+	<select id="listAdmUser" resultMap="userMap">
+		SELECT * FROM adm_user
+	</select>
+
+
+</mapper>
