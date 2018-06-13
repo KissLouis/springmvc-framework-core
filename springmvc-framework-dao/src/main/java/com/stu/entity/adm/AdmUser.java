@@ -1,5 +1,8 @@
 package com.stu.entity.adm;
 
+import java.util.Date;
+
+
 public class AdmUser {
 
 	public Integer userId;
@@ -7,7 +10,7 @@ public class AdmUser {
 	public String userName;
 	public String passWord;
 	public String userPhone;
-	public String creationDate;
+	public Date creationDate;
 	public Integer userState;
 
 	public Integer getUserId() {
@@ -50,11 +53,11 @@ public class AdmUser {
 		this.userPhone = userPhone;
 	}
 
-	public String getCreationDate() {
+	public Date getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(String creationDate) {
+	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
 

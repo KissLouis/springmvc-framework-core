@@ -13,7 +13,7 @@ import com.stu.dao.adm.IAdmUserDao;
 import com.stu.entity.adm.AdmUser;
 
 @Service
-@Transactional(propagation=Propagation.SUPPORTS,readOnly=true,isolation=Isolation.READ_COMMITTED)
+@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 public class AdmUserBiz implements IAdmUserBiz {
 
 	@Autowired
