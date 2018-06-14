@@ -2,7 +2,6 @@ package com.stu.entity.adm;
 
 import java.util.Date;
 
-
 public class AdmUser {
 
 	public Integer userId;
@@ -67,6 +66,14 @@ public class AdmUser {
 
 	public void setUserState(Integer userState) {
 		this.userState = userState;
+	}
+
+	@Override
+	public String toString() {
+		return "AdmUser [userId=" + userId + ", userImg=" + userImg
+				+ ", userName=" + userName + ", passWord=" + passWord
+				+ ", userPhone=" + userPhone + ", creationDate=" + creationDate
+				+ ", userState=" + userState + "]";
 	}
 
 }

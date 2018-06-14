@@ -20,39 +20,5 @@
 		SELECT * FROM adm_user
 	</select>
 
-	<insert id="addAdmUser">
-		INSERT INTO adm_user
-		(
-		userImg,
-		userName,
-		PASSWORD,
-		userPhone,
-		userStatus
-		)
-		VALUES
-		(
-		#{user.userImg},
-		#{user.userName},
-		#{user.passWord},
-		#{user.userPhone},
-		0
-		);
-	</insert>
-
-
-	<select id="findUser" resultMap="userMap">
-		SELECT userId,
-		userImg,
-		userName,
-		PASSWORD,
-		userPhone,
-		creationDate,
-		userStatus
-		FROM
-		sys_blog.adm_user
-		where
-		userId = #{user.userId};
-	</select>
-
 
 </mapper>
