@@ -54,4 +54,26 @@ public class AdmUserController {
 		return admUserBiz.findUser(user);
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/deleteUser")
+	@ResponseBody
+	public Map<String, Object> deleteUser(@RequestBody AdmUser user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		admUserBiz.deleteUser(user);
+		map.put("code", "200");
+		return map;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/updateUser")
+	@ResponseBody
+	public Map<String, Object> updateUser(@RequestBody AdmUser user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (user.getUserId() != null && user.getUserId() != 0){
+			admUserBiz.updateUser(user);
+		}else{
+			admUserBiz.addAdmUser(user);
+		}
+		map.put("code", "200");
+		return map;
+	}
+
 }

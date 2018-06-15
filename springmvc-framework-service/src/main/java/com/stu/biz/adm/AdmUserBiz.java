@@ -9,6 +9,10 @@ public interface AdmUserBiz {
 	public List<AdmUser> listAdmUser();
 
 	public void addAdmUser(AdmUser user);
-	
+
 	public AdmUser findUser(AdmUser user);
+
+	public void deleteUser(AdmUser user);
+
+	public void updateUser(AdmUser user);
 }

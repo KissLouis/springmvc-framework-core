@@ -6,13 +6,13 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans 
-	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 	http://www.springframework.org/schema/aop
-	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 	http://www.springframework.org/schema/context 
-	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/context/spring-context-4.3.xsd
 	http://www.springframework.org/schema/tx
-	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 	">
 
 	<!-- 使用基础连接池 -->
@@ -33,31 +33,29 @@
 		<property name="maxWait" value="2000" />
 		<property name="validationQuery" value="select 1" />
 	</bean>
+	
+	<!-- 事务管理器 -->
+	<bean id="transManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="ds"></property>
+	</bean>
 
 	<!-- spring集成mybaits配置 -->
 	<bean id="ssf" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="ds" />
-		<property name="configLocation" value="classpath:MyBatisConfig.xml" />
+		<property name="dataSource" ref="ds"></property>
+		<property name="configLocation" value="classpath:MyBatisConfig.xml"></property>
 	</bean>
 
 	<!-- 扫描sql映射,并自动byType注入dao -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="sqlSessionFactoryBeanName" value="ssf" />
+		<property name="sqlSessionFactoryBeanName" value="ssf"></property>
 		<!-- 多个包以英文逗号隔开，例如 :com.accp.x.dao,com.accp.y.dao -->
-		<property name="basePackage" value="com.stu.dao" />
+		<property name="basePackage" value="com.stu.dao"></property>
 	</bean>
-
-	<!-- 事务管理器 -->
-	<bean id="transManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="ds" />
-	</bean>
-	<!-- 启用元注解模式开启事务 -->
+	
+	<!-- 启用元注解事务代理 -->
 	<tx:annotation-driven transaction-manager="transManager" />
 	
-	
-	
-	<context:component-scan base-package="com.stu.biz"
-		use-default-filters="true" />
+	<context:component-scan base-package="com.stu.biz" use-default-filters="true"/>
 
 </beans>

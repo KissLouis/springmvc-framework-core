@@ -45,4 +45,16 @@ public class IAdmUserBiz implements AdmUserBiz {
 		return admUserDao.findUser(user);
 	}
 
+	@Override
+	public void deleteUser(AdmUser user) {
+		// TODO Auto-generated method stub
+		admUserDao.deleteUser(user);
+	}
+
+	@Override
+	public void updateUser(AdmUser user) {
+		// TODO Auto-generated method stub
+		admUserDao.updateUser(user);
+	}
+
 }

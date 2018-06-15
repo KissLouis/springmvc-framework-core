@@ -22,38 +22,156 @@
 	</table>
 
 	<hr />
+	<button type="button" id="btn_addUser" class="btn btn-primary" onclick="addUser()">新增用户信息</button>
 
-	<form action="addUser" id="addUser" method="post"
-		class="form-horizontal">
-		<div class="form-group">
-			<label for="userName" class="col-sm-2 control-label">用户名：</label>
-			<div class="col-sm-9">
-				<input type="text" class="form-control" id="userName"
-					placeholder="请输入你的用户名">
+	<!-- 修改Modal -->
+	<div class="modal fade" id="updateUserModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">提示</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+							<div class="col-sm-10">
+								<input type="hidden" id="updateUserId"> <input
+									type="text" class="form-control" id="updateUserName"
+									placeholder="userName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="updatePassword"
+									placeholder="Password">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" id="displayUpdateUserId">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="updateUser()">提交更改</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+
+	<!-- 删除 -->
+	<div class="modal fade bs-example-modal-sm" id="deleteUserModal"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h5 class="modal-title" id="myModalLabel">提示</h5>
+				</div>
+				<div class="modal-body">
+					<p>确认删除该用户?</p>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" id="displayId">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary"
+						onclick="deleteUser()">确认</button>
+				</div>
 			</div>
 		</div>
-		<div class="form-group">
-			<label for="passWord" class="col-sm-2 control-label">密码：</label>
-			<div class="col-sm-9">
-				<input type="password" class="form-control" id="passWord"
-					placeholder="请输入你的密码">
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="button" id="btn_addUser" class="btn btn-primary">提交</button>
-			</div>
-		</div>
-	</form>
+	</div>
 
 </body>
 
+
 <!-- jquery-1.8.3.js -->
-<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 <!-- bootstrap-table.min.js -->
 <script src="js/bootstrap-table.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
 
 <script type="text/javascript">
+	function ifDeleteUser(userId) {
+		$('#deleteUserModal').modal('show');
+		$("#displayId").val(userId);
+	}
+
+	function deleteUser() {
+		var user = {};
+		user.userId = $("#displayId").val();
+		$.ajax("deleteUser", {
+			"type" : "POST",
+			"dataType" : "json",
+			"contentType" : "application/json", //非常重要
+			"data" : JSON.stringify(user), //必须为json字符串
+			"success" : function(result) {
+				$('#deleteUserModal').modal('hide')
+				if (result.code == "200") {
+					window.location.reload();
+				}
+			},
+			"error" : function(xhr, e, t) {
+				alert("处理失败" + e);
+			}
+		});
+	}
+
+	function toUpdateUser(userId) {
+		$('#updateUserModal').modal('show');
+		var user = {};
+		user.userId = userId;
+		$.ajax("findUser", {
+			"type" : "POST",
+			"dataType" : "json",
+			"contentType" : "application/json", //非常重要
+			"data" : JSON.stringify(user), //必须为json字符串
+			"success" : function(user) {
+				$("#updateUserId").val(userId);
+				$("#updateUserName").val(user.userName);
+				$("#updatePassword").val(user.passWord);
+			},
+			"error" : function(xhr, e, t) {
+				alert("处理失败" + e);
+			}
+		});
+	}
+	
+	function addUser(){
+		$('#updateUserModal').modal('show');
+	}
+
+	function updateUser(userId) {
+		var user = {};
+		user.userId = $("#updateUserId").val();
+		user.userName = $("#updateUserName").val();
+		user.passWord = $("#updatePassword").val();
+		$.ajax("updateUser", {
+			"type" : "POST",
+			"dataType" : "json",
+			"contentType" : "application/json", //非常重要
+			"data" : JSON.stringify(user), //必须为json字符串
+			"success" : function(result) {
+				$('#deleteUserModal').modal('hide')
+				if (result.code == "200") {
+					window.location.reload();
+				}
+			},
+			"error" : function(xhr, e, t) {
+				alert("处理失败" + e);
+			}
+		});
+	}
+
 	$(function() {
 		/*
 		$.post("list", function(result) {
@@ -67,6 +185,25 @@
 			}
 		}, "json");
 		 */
+		
+
+		function operateFormatter(value, row, index) {
+			//row 获取这行的值 ，index 获取索引值 
+			return [
+					"<button id='updateUser' type='button' class='btn btn-small btn-info' onclick='toUpdateUser("
+							+ row.userId + ");'>修改</button>&nbsp;&nbsp;",
+					"<button type='button' class='btn btn-small btn-danger' onclick='ifDeleteUser("
+							+ row.userId + ")' >删除</button>" ].join('');
+		}
+		;
+
+		/*
+		window.operateEvents = {
+			"click #updateUser" : function(e, value, row, index) {
+				alert(1);
+			}
+		};
+		
 
 		$("#btn_addUser").click(function() {
 			var user = {};
@@ -90,6 +227,8 @@
 			});
 
 		});
+		
+		 */
 
 		$('#table').bootstrapTable({
 			url : 'list',
@@ -117,6 +256,10 @@
 			}, {
 				field : 'creationDate',
 				title : '创建时间'
+			}, {
+				field : 'userId',
+				title : '操作',
+				formatter : operateFormatter
 			} ],
 			onLoadSuccess : function() { //加载成功时执行
 				console.info("加载成功");

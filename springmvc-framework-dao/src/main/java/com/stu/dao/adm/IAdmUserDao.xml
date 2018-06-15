@@ -49,10 +49,29 @@
 		creationDate,
 		userStatus
 		FROM
-		sys_blog.adm_user
+		adm_user
 		where
-		userId = #{user.userId};
+		userId =
+		#{user.userId};
 	</select>
+
+	<delete id="deleteUser">
+		DELETE FROM adm_user
+		WHERE
+		userId = #{user.userId};
+	</delete>
+
+	<update id="updateUser">
+		UPDATE adm_user
+		SET
+		userImg = #{user.userImg} ,
+		userName = #{user.userName} ,
+		PASSWORD = #{user.passWord} ,
+		userPhone =
+		#{user.userPhone}
+		WHERE
+		userId = #{user.userId} ;
+	</update>
 
 
 </mapper>

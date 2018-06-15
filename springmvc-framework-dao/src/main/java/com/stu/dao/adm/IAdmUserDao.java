@@ -42,4 +42,26 @@ public interface IAdmUserDao {
 	 */
 	public AdmUser findUser(@Param("user") AdmUser user);
 
+	/**
+	 * 
+	 * Description:
+	 * 
+	 * @param user
+	 * @Note
+	 * @Author: Louis
+	 * @Date: 2018年6月15日 下午3:29:20
+	 */
+	public void deleteUser(@Param("user") AdmUser user);
+
+	/**
+	 * 
+	 * Description:
+	 * 
+	 * @param user
+	 * @Note
+	 * @Author: Louis
+	 * @Date: 2018年6月15日 下午3:31:14
+	 */
+	public void updateUser(@Param("user") AdmUser user);
+
 }
